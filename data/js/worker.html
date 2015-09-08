@@ -1,0 +1,60 @@
+<html>
+<head>
+<!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.0.min.js"></script>-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="js/socket.io.js"></script>
+<script src="worker.js"></script>
+<script>
+  //console.log("#####En la web...");
+  //const port = require("sdk/self").port;
+  var socket;
+  
+  if(socket == null || !socket.socket.connected)
+  {
+	console.log("### Connecting: ");
+	socket = io.connect("http://localhost:8081/browserChannel");
+	
+	socketListeners();
+  }
+
+  if(socket != null && socket.socket.connected)
+  {
+	console.log("--- Connected ---");
+	socketListeners();
+	socket.send(uri);
+  }
+  
+  function socketListeners()
+  {
+	socket.on('connect', function(data){
+		console.log('Socket connected: ');
+		console.log("### Sending uri");
+		
+		socket.send("com.ilunion.cloud4firefox");
+	});
+	
+	
+	socket.on("connectionSucceeded", function (settings) {
+		console.log("## Received ...");
+		processSettings(settings);
+	});
+
+	socket.on("onBrowserSettingsChanged", function(settings){
+		processSettings(settings);
+	});
+	
+  }
+  
+  function processSettings(settings)
+  {
+		console.log("## Received the following settings: " + JSON.stringify(settings));
+		//sendPreferences(settings);
+		//addon.port.emit("pageAdaptor", settings);
+  }	
+	
+</script>
+</head>
+<body>
+<h1>Hello World!!!</h1>
+</body>
+</html>
