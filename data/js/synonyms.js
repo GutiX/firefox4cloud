@@ -146,34 +146,3 @@ $(document).keyup(function(e) {
 $(document).mousedown(function(e) {
     $(".tooltip").remove();
 });
-
-/*function onDoubleClickEn(e) {
-	var txt = "nada";
-	if (window.getSelection) {
-
-        txt = window.getSelection();
-        var selection = txt.getRangeAt(0);
-		var bodyRect = document.body.getBoundingClientRect();
-        var sel_xx = selection.getBoundingClientRect().left; 
-        var sel_yy = selection.getBoundingClientRect().top; 
-		sel_x = sel_xx - bodyRect.left; 
-        sel_y = sel_yy - bodyRect.top;
-
-    } else if (document.getSelection) {
-
-        txt = document.getSelection();
-        var selection = txt.getRangeAt(0);
-        var bodyRect = document.body.getBoundingClientRect();
-        var sel_xx = selection.getBoundingClientRect().left; 
-        var sel_yy = selection.getBoundingClientRect().top; 
-		sel_x = sel_xx - bodyRect.left; 
-        sel_y = sel_yy - bodyRect.top;
-
-    } else if (document.selection) {
-
-        txt = document.selection.createRange().text;
-
-    }
-	console.log("Palabra seleccionada. " + txt);
-}*/
-
