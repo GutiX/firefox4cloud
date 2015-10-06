@@ -27,6 +27,7 @@ var zoomDisplay = document.querySelector("#eZoomDisplay");
 var linespaceUpButton = document.querySelector("#eLinespaceUpButton");
 var linespaceDownButton = document.querySelector("#eLinespaceDownButton");
 var linespaceDisplay = document.querySelector("#eLinespaceDisplay");
+var synonymsen = document.querySelector("#synonyms-en-checkbox");
 
 var currentToken = "";
 var panelSizeCurrent = 435;
@@ -202,6 +203,15 @@ function setPreferencesForm(npsetObject) {
 				var inverted = preferences["invertColours"];
 				invertColours.checked = inverted;
 				if(inverted) invertColorHandler(false);
+			}
+			
+			if (preferences.hasOwnProperty("synonyms")) {
+				console.log(
+					"SYNONYMS: " +
+					preferences["synonyms"]
+				);
+				var synonyms = preferences["synonyms"];
+				invertColours.checked = synonyms;
 			}
 			
 			if (preferences.hasOwnProperty("cursorSize")) {
@@ -505,6 +515,13 @@ cursorSizeXLarge.addEventListener("click", function(e) {
 	self.port.emit("updatePreferences", preferences);
 	htmlNode.setAttribute('cs', "x-large-cp");
 	//console.log("Zoom cambiado: " + zoomLevel.value);
+});
+
+synonymsen.addEventListener("click", function(e) {
+	var active = synonymsen.checked;
+	var preferences = { synonyms : active };
+
+	self.port.emit("updatePreferences", preferences);
 });
 
 // --- events handler ---

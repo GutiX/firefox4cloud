@@ -91,6 +91,13 @@
   		"title": "Simplifier",
   		"description": "Removes all unnecessary elements (images, etc.) in all pages",
   		"value": false
+  	},
+  	{
+	  	"name": "synonyms",
+  		"title": "Synonyms",
+  		"type": "bool",
+  		"description": "If active, the user can do double-click on any word to see a list of synonyms",
+  		"value": false
   	}
   ]
 }

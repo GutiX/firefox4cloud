@@ -1,0 +1,42 @@
+/*Synonyms frame style*/
+
+.tooltip {
+  /*position: fixed;   */
+  position: absolute;
+  background: black !important;
+  color: white !important;
+  border-radius: 6px;
+  border: 2px solid #fff;
+  padding: 1em;
+  font-size: 12px;
+  margin: 20px;
+  width: 300px;
+}
+
+.tooltip p, .tooltip h1, .tooltip h2{
+  background: black !important;
+  color: white !important;
+}
+
+.tooltip .help-paragraph {
+  font-style: italic;
+  font-size: 0.8em;
+}
+
+.tooltip p{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.tooltip h2 {
+  font-size: 1.4em !important;
+  font-weight: bold !important;
+  margin-bottom: 10px;
+  /*text-decoration: underline;*/
+}
+
+.tooltip h3 {
+  font-size: 1.2em !important;
+  font-weight: bold !important;
+  text-decoration: underline;
+}
