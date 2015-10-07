@@ -32,11 +32,13 @@
   font-size: 1.4em !important;
   font-weight: bold !important;
   margin-bottom: 10px;
+  color: #fff;
   /*text-decoration: underline;*/
 }
 
 .tooltip h3 {
   font-size: 1.2em !important;
   font-weight: bold !important;
+  color: #fff;
   text-decoration: underline;
 }
