@@ -4,7 +4,7 @@ var sel_x = 0, sel_y = 0;
 var word = '';
 var help_paragraph_en = $('<p></p>').addClass('help-paragraph').text("Click the mouse or any key to close");
 var error_paragraph_en = $('<p></p>').text("Sorry, no synonyms found");
-
+var zoom = 1;
 console.log("###### Active Status: " + active);
 
 	
@@ -25,23 +25,42 @@ self.port.on("synonyms", function(req){
 
 });
 
+self.port.on("currentZoom", function(currentZoom){
+	console.log("Current Zoom: " + currentZoom);
+	zoom = currentZoom;
+	word = get_selection_en();
+	console.log("Word: " + word);
+    if (word.length > 0) {
+		self.port.emit("getSynonyms", bhl_url + word + "/json");
+	}
+});
+
 self.port.on("synonymsProcess", function(synonymsJSON){
 	console.log("synonymsProcess: " + JSON.stringify(synonymsJSON));
-	showTooltipEn(synonymsJSON);
+	if(synonymsJSON.hasOwnProperty('error'))
+	{
+		showErrorTooltipEn();
+	}
+	else
+	{
+		showTooltipEn(synonymsJSON);
+	}
 });
 
 function onDoubleClickEn(e) {
-    word = get_selection_en();
+    /*word = get_selection_en();
 	console.log("Word: " + word);
-    if (word.length > 0) {
+    if (word.length > 0) {*/
         
-		self.port.emit("getSynonyms", bhl_url + word + "/json");
+		self.port.emit("getCurrentZoom", "getZoom");
+		//self.port.emit("getSynonyms", bhl_url + word + "/json");
 
-    }
+    //}
 }
 
 function get_selection_en() {
     var txt = '';
+	
 
     if (window.getSelection) {
 
@@ -50,8 +69,8 @@ function get_selection_en() {
 		var bodyRect = document.body.getBoundingClientRect();
         var sel_xx = selection.getBoundingClientRect().left; 
         var sel_yy = selection.getBoundingClientRect().top; 
-		sel_x = sel_xx - bodyRect.left; 
-        sel_y = sel_yy - bodyRect.top;
+		sel_x = (sel_xx - bodyRect.left) / zoom; 
+        sel_y = (sel_yy - bodyRect.top) / zoom;
 
     } else if (document.getSelection) {
 
@@ -60,16 +79,16 @@ function get_selection_en() {
         var bodyRect = document.body.getBoundingClientRect();
         var sel_xx = selection.getBoundingClientRect().left; 
         var sel_yy = selection.getBoundingClientRect().top; 
-		sel_x = sel_xx - bodyRect.left; 
-        sel_y = sel_yy - bodyRect.top;
+		sel_x = (sel_xx - bodyRect.left) / zoom; 
+        sel_y = (sel_yy - bodyRect.top) / zoom;
 
     } else if (document.selection) {
 
         txt = document.selection.createRange().text;
 
     }
-	
 	console.log("Position X: " + sel_x + " - Y: " + sel_y);
+	console.log("Position XX: " + sel_xx + " - YY: " + sel_yy);
 
     return $.trim(txt.toString());
 }
@@ -134,6 +153,8 @@ function showErrorTooltipEn() {
     var tooltipDiv = $("<div class='tooltip'></div>");
     $(tooltipDiv).css("top", sel_y);
     $(tooltipDiv).css("left", sel_x);
+	var superTitle = $("<h2></h2>").text('Synonyms of "' + word + '"');
+	$(tooltipDiv).append(superTitle);
     $(tooltipDiv).append(error_paragraph_en);
     $(tooltipDiv).append(help_paragraph_en);
     $('body').append(tooltipDiv);

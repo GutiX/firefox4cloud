@@ -32,6 +32,11 @@ var synonymsen = document.querySelector("#synonyms-en-checkbox");
 var currentToken = "";
 var panelSizeCurrent = 435;
 var fontFaceCurrent = "none";
+var wmedium = 435;
+var wlarge = 500;
+var wxlarge = 580;
+var zoom = 1;
+var diference = 0;
 
 self.port.on("setPreferencesForm", function(settings) {
 	console.log("##### Entra en setPreferencesForm");
@@ -301,6 +306,17 @@ function updateZoom(op)
 	
 	var preferences = { magnification : zoomCoef, magnifierEnabled : true };
 	self.port.emit("updatePreferences", preferences);
+	
+	zoom = zoomCoef;
+	
+	document.body.style.transform = "scale(" + zoomCoef + ")";
+	document.body.style.transformOrigin = "0 0";
+	
+	if(zoomCoef <= 2)
+	{
+		var size = panelSizeCurrent + (panelSizeCurrent * ((zoomCoef - 1))) + diference + (diference * (zoomCoef - 1));
+		self.port.emit("width-panel", size);
+	}
 	
 	/*document.documentElement.style.zoom = zoomCoef;
 	window.scrollTo(500, scrolly);
@@ -580,25 +596,30 @@ function invertColorHandler(store)
 
 function panelSizeFontAdapt()
 {
-	var diference = 0;
+	diference = 0;
 	if(fontFaceCurrent == "verdana-cp")
 	{
-		if(panelSizeCurrent == 435){diference = 35;}
-		else if(panelSizeCurrent == 500) {diference = 55;}
-		else if(panelSizeCurrent == 580) {diference = 90;}
+		if(panelSizeCurrent == wmedium){diference = 35;}
+		else if(panelSizeCurrent == wlarge) {diference = 55;}
+		else if(panelSizeCurrent == wxlarge) {diference = 90;}
 	}
 	else if(fontFaceCurrent == "courier-cp")
 	{
-		if(panelSizeCurrent == 435){diference = 140;}
-		else if(panelSizeCurrent == 500) {diference = 155;}
-		else if(panelSizeCurrent == 580) {diference = 200;}
+		if(panelSizeCurrent == wmedium){diference = 140;}
+		else if(panelSizeCurrent == wlarge) {diference = 155;}
+		else if(panelSizeCurrent == wxlarge) {diference = 200;}
 	}
 	else if(fontFaceCurrent == "comic-sans-ms-cp")
 	{
-		if(panelSizeCurrent == 435){diference = 15;}
-		else if(panelSizeCurrent == 500) {diference = 25;}
-		else if(panelSizeCurrent == 580) {diference = 40;}
+		if(panelSizeCurrent == wmedium){diference = 15;}
+		else if(panelSizeCurrent == wlarge) {diference = 25;}
+		else if(panelSizeCurrent == wxlarge) {diference = 40;}
 	}
-	var size = panelSizeCurrent + diference;
+	var size = (panelSizeCurrent + getAddedToDiference(panelSizeCurrent)) + (diference + getAddedToDiference(diference));
 	self.port.emit("width-panel", size);
+}
+
+function getAddedToDiference(dif)
+{
+	return dif * (zoom - 1);
 }

@@ -11,6 +11,7 @@
   font-size: 12px;
   margin: 20px;
   width: 300px;
+  z-index: 99999;
 }
 
 .tooltip p, .tooltip h1, .tooltip h2{

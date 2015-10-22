@@ -5,7 +5,7 @@
   "description": "An add-on that changes css based on the preferences defined for Cloud4all",
   "author": "Ignacio Peinado - Fundosa Technosite S.A.",
   "license": "MPL 2.0",
-  "version": "0.1",
+  "version": "0.11",
   "preferences": [
     {
       "name": "token",
